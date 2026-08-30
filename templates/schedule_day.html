@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}{{ selected_date.strftime('%d.%m.%Y') }} — Студ.Помощник{% endblock %}
+
+{% block content %}
+    <a href="{{ url_for('schedule_calendar', year=selected_date.year, month=selected_date.month) }}" class="back-link">← Назад к календарю</a>
+
+    <div class="eyebrow">{{ selected_date.strftime('%A').capitalize() }}</div>
+    <h1>{{ selected_date.strftime('%d.%m.%Y') }}</h1>
+
+    <div class="card" style="margin-top: 24px;">
+        {% if lessons %}
+            {% for lesson in lessons %}
+                <div class="lesson" style="flex-direction: column; align-items: stretch;">
+                    <div style="display: flex; gap: 16px;">
+                        <div class="lesson-time mono">{{ lesson.time_start }}–{{ lesson.time_end }}</div>
+                        <div class="lesson-body">
+                            <div class="lesson-subject">
+                                {{ lesson.subject }}
+                                {% if lesson.lesson_type %}
+                                    <span class="lesson-type">{{ lesson.lesson_type }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="lesson-meta">
+                                {% if lesson.teacher %}{{ lesson.teacher }}{% endif %}
+                                {% if lesson.room %} · {{ lesson.room }}{% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if lesson.notes %}
+                        <div style="margin: 12px 0 0 112px;">
+                            {% for note in lesson.notes %}
+                                <div class="note-card" style="margin-bottom: 8px;">
+                                    <span class="note-tag">заметка</span>
+                                    <div style="flex: 1;">{{ note.text }}</div>
+                                    <form method="post" action="{{ url_for('delete_note', note_id=note.id) }}">
+                                        <input type="hidden" name="redirect_to" value="day">
+                                        <button type="submit" class="calendar-nav-btn" style="padding: 2px 8px; font-size: 0.75rem;">×</button>
+                                    </form>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <form method="post" style="margin: 10px 0 0 112px;">
+                        <input type="hidden" name="schedule_id" value="{{ lesson.id }}">
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" name="text" placeholder="Добавить заметку (дз, дедлайн...)" style="margin: 0;">
+                            <button type="submit" class="btn" style="margin: 0; padding: 10px 16px; white-space: nowrap;">+ Заметка</button>
+                        </div>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">В этот день пар нет</div>
+        {% endif %}
+    </div>
+{% endblock %}

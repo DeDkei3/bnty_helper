@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Главная — Студ.Помощник{% endblock %}
+
+{% block content %}
+    <div class="eyebrow">{{ today.strftime('%d.%m.%Y') }}</div>
+    <h1>Сегодня</h1>
+
+    <div class="card" style="margin-top: 24px;">
+        {% if lessons %}
+            {% for lesson in lessons %}
+                <div class="lesson">
+                    <div class="lesson-time mono">{{ lesson.time_start }}–{{ lesson.time_end }}</div>
+                    <div class="lesson-body">
+                        <div class="lesson-subject">
+                            {{ lesson.subject }}
+                            {% if lesson.lesson_type %}
+                                <span class="lesson-type">{{ lesson.lesson_type }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="lesson-meta">
+                            {% if lesson.teacher %}{{ lesson.teacher }}{% endif %}
+                            {% if lesson.room %} · {{ lesson.room }}{% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">Сегодня пар нет</div>
+        {% endif %}
+    </div>
+{% endblock %}

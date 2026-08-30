@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Заметки — Студ.Помощник{% endblock %}
+
+{% block content %}
+    <div class="eyebrow">Все заметки</div>
+    <h1>Заметки</h1>
+
+    <div class="card" style="margin-top: 24px;">
+        {% if notes %}
+            {% for note in notes %}
+                <div class="lesson">
+                    <div class="lesson-time mono" style="min-width: 130px;">
+                        {{ note.schedule.date.strftime('%d.%m.%Y') }}
+                    </div>
+                    <div class="lesson-body">
+                        <div class="lesson-subject">{{ note.schedule.subject }}</div>
+                        <div class="note-card" style="margin-top: 6px;">
+                            <span class="note-tag">заметка</span>
+                            <div style="flex: 1;">{{ note.text }}</div>
+                            <form method="post" action="{{ url_for('delete_note', note_id=note.id) }}">
+                                <input type="hidden" name="redirect_to" value="notes">
+                                <button type="submit" class="calendar-nav-btn" style="padding: 2px 8px; font-size: 0.75rem;">×</button>
+                            </form>
+                        </div>
+                        <div class="lesson-meta" style="margin-top: 6px;">
+                            <a href="{{ url_for('schedule_day', date_str=note.schedule.date.isoformat()) }}">К паре в расписании →</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">Заметок пока нет — добавь их со страницы конкретного дня в расписании</div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Расписание — Студ.Помощник{% endblock %}
+
+{% block content %}
+    <div class="eyebrow">Расписание</div>
+
+    <div class="calendar-header">
+        <a href="{{ url_for('schedule_calendar', year=prev_year, month=prev_month) }}" class="calendar-nav-btn">← Пред.</a>
+        <h1 style="margin: 0;">{{ month_name }} {{ year }}</h1>
+        <a href="{{ url_for('schedule_calendar', year=next_year, month=next_month) }}" class="calendar-nav-btn">След. →</a>
+    </div>
+
+    <div class="calendar-grid">
+        {% for wd in ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'] %}
+            <div class="calendar-weekday">{{ wd }}</div>
+        {% endfor %}
+
+        {% for week in month_days %}
+            {% for day in week %}
+                <div class="calendar-day
+                    {{ 'other-month' if day.month != month }}
+                    {{ 'has-lessons' if day in days_with_lessons }}
+                    {{ 'today' if day == today }}">
+                    {% if day in days_with_lessons %}
+                        <a href="{{ url_for('schedule_day', date_str=day.isoformat()) }}">
+                            <div class="day-number">{{ day.day }}</div>
+                            <div class="day-dot"></div>
+                            {% if day in days_with_notes %}
+                                <div class="day-dot-note"></div>
+                            {% endif %}
+                        </a>
+                    {% else %}
+                        <div class="day-number">{{ day.day }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

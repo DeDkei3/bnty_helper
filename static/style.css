@@ -1,0 +1,398 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+    --bg: #0F1E38;
+    --bg-elevated: #16294A;
+    --bg-elevated-2: #1C3155;
+    --line: #2D4A72;
+    --line-soft: #203C63;
+    --accent: #5FD1CE;
+    --accent-dim: #3A8B8A;
+    --amber: #E8A33D;
+    --text: #E9EFF6;
+    --text-dim: #93A8C4;
+    --text-faint: #5E7599;
+    --radius: 3px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background-color: var(--bg);
+    background-image:
+        linear-gradient(var(--line-soft) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 32px 32px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    margin: 0 0 0.5em 0;
+    letter-spacing: -0.01em;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.mono {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* ---------- Шапка ---------- */
+
+header.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--line);
+}
+
+.logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--accent);
+    transform: rotate(45deg);
+}
+
+nav.main-nav {
+    display: flex;
+    gap: 4px;
+}
+
+nav.main-nav a {
+    color: var(--text-dim);
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    font-size: 0.92rem;
+    font-weight: 500;
+}
+
+nav.main-nav a:hover {
+    color: var(--text);
+    background: var(--bg-elevated-2);
+    text-decoration: none;
+}
+
+nav.main-nav a.active {
+    color: var(--accent);
+    background: var(--bg-elevated-2);
+}
+
+/* ---------- Контейнер ---------- */
+
+main.page {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px 24px 80px 24px;
+}
+
+.eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+/* ---------- Карточки ---------- */
+
+.card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.card-title {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+}
+
+/* ---------- Пара / занятие ---------- */
+
+.lesson {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line-soft);
+}
+
+.lesson:last-child { border-bottom: none; }
+
+.lesson-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    color: var(--accent);
+    white-space: nowrap;
+    min-width: 96px;
+    font-size: 0.9rem;
+    padding-top: 2px;
+}
+
+.lesson-body { flex: 1; }
+
+.lesson-subject {
+    font-weight: 600;
+    font-size: 1.02rem;
+}
+
+.lesson-type {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px 6px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text-dim);
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+.lesson-meta {
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    margin-top: 4px;
+}
+
+.empty-state {
+    color: var(--text-faint);
+    font-style: normal;
+    padding: 24px 0;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+}
+
+/* ---------- Календарь ---------- */
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.calendar-nav-btn {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.calendar-nav-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    background: var(--line-soft);
+    border: 1px solid var(--line);
+}
+
+.calendar-weekday {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    background: var(--bg);
+    padding: 8px 10px;
+    text-align: right;
+}
+
+.calendar-day {
+    background: var(--bg-elevated);
+    min-height: 76px;
+    padding: 8px 10px;
+    position: relative;
+    color: var(--text-dim);
+}
+
+.calendar-day.other-month {
+    background: var(--bg);
+    color: var(--text-faint);
+}
+
+.calendar-day.has-lessons {
+    color: var(--text);
+    cursor: pointer;
+}
+
+.calendar-day.has-lessons:hover {
+    background: var(--bg-elevated-2);
+}
+
+.calendar-day.today {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+}
+
+.calendar-day a {
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.day-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+}
+
+.day-dot {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+}
+
+.day-dot-note {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    width: 6px;
+    height: 6px;
+    background: var(--amber);
+    border-radius: 50%;
+}
+
+/* ---------- Формы ---------- */
+
+label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    margin-top: 14px;
+}
+
+input, select, textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+button.btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 11px 22px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.95rem;
+    margin-top: 18px;
+}
+
+button.btn:hover { background: #78dbd8; }
+
+button.btn:focus-visible, a:focus-visible, .calendar-day a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ---------- Заметки ---------- */
+
+.note-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.note-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--amber);
+    border: 1px solid var(--amber);
+    padding: 2px 6px;
+    border-radius: var(--radius);
+    white-space: nowrap;
+}
+
+/* ---------- Утилиты ---------- */
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.stat-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    padding: 16px 20px;
+    border-radius: var(--radius);
+}
+
+.stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+    header.site-header { flex-direction: column; gap: 12px; padding: 16px; }
+    .calendar-day { min-height: 52px; padding: 6px; }
+    main.page { padding: 24px 14px 60px 14px; }
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Студ.Помощник{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">Студ.Помощник</div>
+        <nav class="main-nav">
+            <a href="{{ url_for('home') }}" class="{{ 'active' if request.endpoint == 'home' }}">Главная</a>
+            <a href="{{ url_for('schedule_calendar') }}" class="{{ 'active' if request.endpoint in ['schedule_calendar', 'schedule_day'] }}">Расписание</a>
+            <a href="{{ url_for('notes_list') }}" class="{{ 'active' if request.endpoint == 'notes_list' }}">Заметки</a>
+            <a href="{{ url_for('grades_list') }}" class="{{ 'active' if request.endpoint == 'grades_list' }}">Оценки</a>
+            <a href="{{ url_for('calculator') }}" class="{{ 'active' if request.endpoint == 'calculator' }}">Калькулятор</a>
+        </nav>
+    </header>
+
+    <main class="page">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
