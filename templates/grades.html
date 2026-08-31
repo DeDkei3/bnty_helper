@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Оценки — Студ.Помощник{% endblock %}
+
+{% block content %}
+    <div class="eyebrow">Успеваемость</div>
+    <h1>Оценки</h1>
+
+    <div class="stat-row" style="margin-top: 24px;">
+        <div class="stat">
+            <div class="stat-value mono">{{ overall_average if overall_average is not none else '—' }}</div>
+            <div class="stat-label">Средний балл</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value mono">{{ grades|length }}</div>
+            <div class="stat-label">Всего оценок</div>
+        </div>
+    </div>
+
+    {% if chart_labels %}
+        <div class="card">
+            <div class="card-title">Средний балл по предметам</div>
+            <canvas id="gradesChart" height="90"></canvas>
+        </div>
+    {% endif %}
+
+    <div class="card">
+        <div class="card-title">Добавить оценку</div>
+        <form method="post">
+            <label for="subject">Предмет</label>
+            <input type="text" id="subject" name="subject" required placeholder="Например, Математика">
+
+            <label for="grade">Оценка (1–10)</label>
+            <select id="grade" name="grade" required>
+                {% for i in range(10, 0, -1) %}
+                    <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="grade_type">Тип</label>
+            <select id="grade_type" name="grade_type">
+                <option value="текущая">Текущая</option>
+                <option value="зачёт">Зачёт</option>
+                <option value="экзамен">Экзамен</option>
+            </select>
+
+            <label for="date">Дата</label>
+            <input type="date" id="date" name="date" required>
+
+            <button type="submit" class="btn">Добавить</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="card-title">Все оценки</div>
+        {% if grades %}
+            {% for grade in grades %}
+                <div class="lesson">
+                    <div class="lesson-time mono" style="min-width: 100px;">{{ grade.date.strftime('%d.%m.%Y') }}</div>
+                    <div class="lesson-body">
+                        <div class="lesson-subject">
+                            {{ grade.subject }}
+                            {% if grade.grade_type %}
+                                <span class="lesson-type">{{ grade.grade_type }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="stat-value mono" style="font-size: 1.2rem;">{{ grade.grade }}</div>
+                    <form method="post" action="{{ url_for('delete_grade', grade_id=grade.id) }}">
+                        <button type="submit" class="calendar-nav-btn" style="padding: 4px 10px; margin-left: 12px;">×</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">Оценок пока нет</div>
+        {% endif %}
+    </div>
+
+    {% if chart_labels %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+        <script>
+            const ctx = document.getElementById('gradesChart');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ chart_labels|tojson }},
+                    datasets: [{
+                        label: 'Средний балл',
+                        data: {{ chart_values|tojson }},
+                        backgroundColor: '#5FD1CE',
+                        borderRadius: 3,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 10,
+                            ticks: { color: '#93A8C4' },
+                            grid: { color: '#2D4A72' }
+                        },
+                        x: {
+                            ticks: { color: '#93A8C4' },
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        </script>
+    {% endif %}
+{% endblock %}

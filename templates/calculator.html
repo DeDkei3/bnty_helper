@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Калькулятор — Студ.Помощник{% endblock %}
+
+{% block content %}
+    <div class="eyebrow">Расчёт</div>
+    <h1>Калькулятор среднего балла</h1>
+
+    <div class="card" style="margin-top: 24px;">
+        <div class="card-title">Введите оценки через запятую</div>
+        <form method="post">
+            <label for="grades_input">Оценки</label>
+            <input type="text" id="grades_input" name="grades_input" required
+                   placeholder="Например: 8, 9, 7, 10" value="{{ request.form.get('grades_input', '') }}">
+
+            <label for="label">Название (например, "Осенний семестр 2026") — необязательно, если хотите сохранить результат</label>
+            <input type="text" id="label" name="label" placeholder="Осенний семестр 2026" value="{{ request.form.get('label', '') }}">
+
+            <button type="submit" class="btn">Посчитать{{ ' и сохранить' if request.form.get('label') }}</button>
+        </form>
+
+        {% if error %}
+            <div class="note-card" style="margin-top: 20px; border: 1px solid var(--amber);">
+                <span class="note-tag">ошибка</span>
+                <div>{{ error }}</div>
+            </div>
+        {% elif result is not none %}
+            <div class="stat" style="margin-top: 20px; display: inline-block;">
+                <div class="stat-value mono">{{ result }}</div>
+                <div class="stat-label">Средний балл</div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <div class="card-title">Сохранённые результаты</div>
+        {% if saved_results %}
+            {% for entry in saved_results %}
+                <div class="lesson">
+                    <div class="lesson-time mono" style="min-width: 120px;">{{ entry.created_at.strftime('%d.%m.%Y') }}</div>
+                    <div class="lesson-body">
+                        <div class="lesson-subject">{{ entry.label }}</div>
+                    </div>
+                    <div class="stat-value mono" style="font-size: 1.2rem;">{{ entry.average }}</div>
+                    <form method="post" action="{{ url_for('delete_saved_average', entry_id=entry.id) }}">
+                        <button type="submit" class="calendar-nav-btn" style="padding: 4px 10px; margin-left: 12px;">×</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">Сохранённых результатов пока нет</div>
+        {% endif %}
+    </div>
+{% endblock %}

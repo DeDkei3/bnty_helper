@@ -30,6 +30,7 @@ def import_schedule():
                 time_start=lesson["time_start"],
                 time_end=lesson["time_end"],
                 subject=lesson["subject"],
+
                 lesson_type=lesson["type"],
                 teacher=lesson["teacher"],
                 room=lesson["room"],
